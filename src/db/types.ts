@@ -74,11 +74,12 @@ export interface TaskPostponement {
 export const TASK_STATUSES: TaskStatus[] = ['todo', 'in_progress', 'blocked', 'done'];
 export const TASK_PRIORITIES: TaskPriority[] = ['none', 'low', 'medium', 'high', 'urgent'];
 
-export const STATUS_LABELS: Record<TaskStatus, string> = {
+export const STATUS_LABELS: Record<TaskStatus | 'overdue', string> = {
   todo: 'To Do',
   in_progress: 'In Progress',
   blocked: 'Blocked',
   done: 'Done',
+  overdue: 'Overdue',
 };
 
 export const PRIORITY_LABELS: Record<TaskPriority, string> = {
