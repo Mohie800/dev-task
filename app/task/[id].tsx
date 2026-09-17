@@ -1,7 +1,6 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useFocusEffect } from '@react-navigation/native';
+import { useLocalSearchParams, useRouter, usePathname } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { Screen, StatusPill, Sheet, Input, PostponeSheet, EmptyState } from '@/components';
 import { useTheme, spacing, radius } from '@/theme';
@@ -34,7 +33,10 @@ export default function TaskScreen() {
     if (id) setTask(tasks.getTask(id));
   }, [id]);
 
-  useFocusEffect(reload);
+  const pathname = usePathname();
+  useEffect(() => {
+    reload();
+  }, [pathname, reload]);
 
   if (!task) {
     return (

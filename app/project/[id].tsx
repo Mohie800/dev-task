@@ -1,7 +1,6 @@
-import { useCallback, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useFocusEffect } from '@react-navigation/native';
+import { useLocalSearchParams, useRouter, usePathname } from 'expo-router';
 import { Screen, Section, ProgressBar, StatusPill, TaskRow, Sheet, Input, EmptyState } from '@/components';
 import { useTheme, spacing, radius } from '@/theme';
 import { projects, payments, tasks as tasksRepo } from '@/db/repos';
@@ -21,13 +20,12 @@ export default function ProjectScreen() {
   const [amount, setAmount] = useState('');
   const [note, setNote] = useState('');
 
-  useFocusEffect(
-    useCallback(() => {
-      if (!id) return;
-      setProject(projects.getProject(id));
-      setTaskList(tasksRepo.listTasksByProject(id));
-    }, [id]),
-  );
+  const pathname = usePathname();
+  useEffect(() => {
+    if (!id) return;
+    setProject(projects.getProject(id));
+    setTaskList(tasksRepo.listTasksByProject(id));
+  }, [pathname, id]);
 
   if (!project) {
     return (

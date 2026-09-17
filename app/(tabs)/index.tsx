@@ -1,7 +1,6 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
-import { useRouter } from 'expo-router';
-import { useFocusEffect } from '@react-navigation/native';
+import { useRouter, usePathname } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { Screen, Section, ProgressBar, SwipeTaskRow, PostponeSheet, EmptyState, Fab } from '@/components';
 import { useTheme, spacing, radius } from '@/theme';
@@ -20,12 +19,11 @@ export default function TodayScreen() {
   const { tasks, loaded, refresh, reloadTasks } = useDataStore();
   const [postponeTarget, setPostponeTarget] = useState<Task | null>(null);
 
-  useFocusEffect(
-    useCallback(() => {
-      if (!loaded) refresh();
-      else reloadTasks();
-    }, [loaded]),
-  );
+  const pathname = usePathname();
+  useEffect(() => {
+    if (!loaded) refresh();
+    else reloadTasks();
+  }, [pathname, loaded]);
 
   const bundle = useMemo(() => splitToday(tasks), [tasks]);
   const activeCount = bundle.overdue.length + bundle.today.length + bundle.completedToday.length;

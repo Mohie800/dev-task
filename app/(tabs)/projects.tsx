@@ -1,7 +1,6 @@
-import { useCallback } from 'react';
+import { useEffect } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
-import { useRouter } from 'expo-router';
-import { useFocusEffect } from '@react-navigation/native';
+import { useRouter, usePathname } from 'expo-router';
 import { Screen, Section, ProgressBar, EmptyState } from '@/components';
 import { useTheme, spacing, radius } from '@/theme';
 import { useDataStore } from '@/stores/data';
@@ -14,11 +13,10 @@ export default function ProjectsScreen() {
   const router = useRouter();
   const { projects, loaded, refresh } = useDataStore();
 
-  useFocusEffect(
-    useCallback(() => {
-      if (!loaded) refresh();
-    }, [loaded]),
-  );
+  const pathname = usePathname();
+  useEffect(() => {
+    if (!loaded) refresh();
+  }, [pathname, loaded]);
 
   return (
     <Screen>

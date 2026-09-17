@@ -1,7 +1,6 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
-import { useRouter } from 'expo-router';
-import { useFocusEffect } from '@react-navigation/native';
+import { useRouter, usePathname } from 'expo-router';
 import { Screen, Segmented, Input, SwipeTaskRow, PostponeSheet, EmptyState } from '@/components';
 import { useTheme, spacing } from '@/theme';
 import { useDataStore } from '@/stores/data';
@@ -21,12 +20,11 @@ export default function TasksScreen() {
   const [query, setQuery] = useState('');
   const [postponeTarget, setPostponeTarget] = useState<Task | null>(null);
 
-  useFocusEffect(
-    useCallback(() => {
-      if (!loaded) refresh();
-      else reloadTasks();
-    }, [loaded]),
-  );
+  const pathname = usePathname();
+  useEffect(() => {
+    if (!loaded) refresh();
+    else reloadTasks();
+  }, [pathname, loaded]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
