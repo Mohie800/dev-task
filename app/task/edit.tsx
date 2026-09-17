@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View, KeyboardAvoidingView, Platform } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Screen, Input, PeriodPicker } from '@/components';
 import { useTheme, spacing, radius } from '@/theme';
@@ -52,6 +52,7 @@ export default function TaskEditScreen() {
 
   return (
     <Screen>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
         <Text style={[type.title1, { color: colors.text, marginTop: spacing.lg, marginBottom: spacing.xl }]}>
           {existing ? 'Edit Task' : 'New Task'}
@@ -139,6 +140,7 @@ export default function TaskEditScreen() {
           </Text>
         ) : null}
       </ScrollView>
+      </KeyboardAvoidingView>
     </Screen>
   );
 }

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter, usePathname } from 'expo-router';
 import { Screen, Section, ProgressBar, StatusPill, TaskRow, Sheet, Input, EmptyState } from '@/components';
-import { useTheme, spacing, radius } from '@/theme';
+import { useTheme, spacing, radius, shadows } from '@/theme';
 import { projects, payments, tasks as tasksRepo } from '@/db/repos';
 import type { Project, Task } from '@/db/types';
 import { projectProgress } from '@/db/repos/projects';
@@ -191,6 +191,13 @@ export default function ProjectScreen() {
           <Text style={[type.calloutMedium, { color: '#fff' }]}>Save payment</Text>
         </Pressable>
       </Sheet>
+
+      <Pressable
+        onPress={() => router.push(`/task/edit?projectId=${project.id}`)}
+        style={[styles.fab, { backgroundColor: colors.accent, shadowColor: colors.text }, shadows.fab]}
+      >
+        <Text style={{ color: '#fff', fontSize: 24, lineHeight: 28 }}>＋</Text>
+      </Pressable>
     </Screen>
   );
 }
@@ -207,4 +214,14 @@ const styles = StyleSheet.create({
   between: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   payRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing.sm },
   saveBtn: { alignItems: 'center', paddingVertical: spacing.md, borderRadius: radius.md, marginTop: spacing.sm },
+  fab: {
+    position: 'absolute',
+    right: spacing['2xl'],
+    bottom: spacing['2xl'],
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

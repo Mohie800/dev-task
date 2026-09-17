@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View, KeyboardAvoidingView, Platform } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Screen, Input, PeriodPicker, Sheet } from '@/components';
 import { useTheme, spacing, radius } from '@/theme';
@@ -55,6 +55,7 @@ export default function ProjectEditScreen() {
 
   return (
     <Screen>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
         <Text style={[type.title1, { color: colors.text, marginTop: spacing.lg, marginBottom: spacing.xl }]}>
           {existing ? 'Edit Project' : 'New Project'}
@@ -104,6 +105,7 @@ export default function ProjectEditScreen() {
           </Text>
         </Pressable>
       </ScrollView>
+      </KeyboardAvoidingView>
 
       <Sheet visible={ownerSheet} title="Owner" onClose={() => setOwnerSheet(false)}>
         <View style={styles.ownerGrid}>

@@ -22,7 +22,12 @@ export function PeriodPicker({
   return (
     <View style={styles.row}>
       {allowNone ? (
-        <Chip label="None" active={none} onPress={() => onChange(null, null)} colors={colors} />
+        <Chip
+        label="None"
+        active={none}
+        onPress={() => (none ? onChange(1, 'days') : onChange(null, null))}
+        colors={colors}
+      />
       ) : null}
       {!none ? (
         <>

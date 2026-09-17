@@ -1,6 +1,7 @@
 /**
  * Task scheduling selectors — pure functions over Task[].
  * "Today" logic (PRD §11): a task surfaces on its trigger day unless postponed;
+ * a task with NO start rule starts today (PRD §10 "Start: Today");
  * overdue = deadline passed; deadline-today tasks always surface.
  */
 import type { Task } from '@/db/types';
@@ -19,7 +20,8 @@ export function isOverdue(t: Task, ref: Date = new Date()): boolean {
 export function isDueToday(t: Task, ref: Date = new Date()): boolean {
   if (t.status === 'done') return false;
   const day = effectiveDay(t);
-  if (day && day <= startOfDay(ref)) return true;
+  if (!day) return true; // no start rule → starts today
+  if (day <= startOfDay(ref)) return true;
   return t.deadlineAt ? startOfDay(new Date(t.deadlineAt)) <= startOfDay(ref) : false;
 }
 
